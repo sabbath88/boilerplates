@@ -1,0 +1,17 @@
+---
+- name: Install enova program
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Downloading and installing enova
+      ansible.windows.win_package:
+        path: https://download.enova.pl/instalatory/archiwalne/enova365_2401.0.0_instalator.msi
+        creates_path: C:\Program Files (x86)\Soneta\enova365 2401.0.0.0\SonataExplorer.exe
+        creates_version: 2401.0.0.0
+        state: present
+        arguments:
+        - /q
+      register: enova_install_result
+
+    - set_fact:
+        sw_ver_installed: "{{ enova_install_result.creates_version }}"

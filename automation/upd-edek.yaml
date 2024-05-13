@@ -1,0 +1,17 @@
+---
+- name: Install edek program
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Downloading and installing edek
+      ansible.windows.win_package:
+        path: https://www.bcsopot.com.pl/EDEK/bcEDEK(15)_Upgrate.exe
+        creates_path: C:\Programy\bc\bcEDEK\bcEDEK.exe
+        #creates_version: 2401.0.0.0
+        state: present
+        arguments:
+        - /s
+      register: edek_install_result
+
+    - set_fact:
+        sw_ver_installed: "{{ edek_install_result.creates_version }}"
